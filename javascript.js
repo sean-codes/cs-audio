@@ -49,7 +49,7 @@ csAudio.load = function(path, types){
 
 csAudio.play = function(name){
 	var source = this.context.createBufferSource(); 
-	source.buffer = csAudio.list[name]['ogg'].buffer;
+	source.buffer = csAudio.list[name]['wav'].buffer;
 
 	source.connect(this.context.destination);
 	source.start(0);
