@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>cs-audio</title>
+	</head> 
+	<body>
+		<button onclick="play()" style="width:200px; height:100px;">Play Audio</button>
+		<script src='javascript.js'></script>
+		<script>
+			csAudio.init();
+			csAudio.load('audio/flap', 'ogg');
+
+			function play(){
+				csAudio.play('flap');
+			}
+		</script>
+	</body>
+</html>
