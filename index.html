@@ -1,18 +1,34 @@
 <!DOCTYPE html>
-<html>
+<html style="background-color:#1d1d1d">
 	<head>
 		<title>cs-audio</title>
-	</head> 
+	</head>
 	<body>
 		<button onclick="play()" style="width:200px; height:100px;">Play Audio</button>
+		<button onclick="stop()" style="width:200px; height:100px;">Stop Audio</button>
 		<script src='javascript.js'></script>
 		<script>
 			csAudio.init();
-			csAudio.load('audio/flap', 'wav');
 
-			function play(){
-				csAudio.play('flap');
-			}
+            //Load Audio
+			csAudio.load({ path: 'audio/background' });
+			csAudio.load({ path: 'audio/flap' });
+            backgroundPlaying = csAudio.play('background');
+
+			setTimeout(start, 10);
+            function start(){
+                if(!backgroundPlaying)
+                    backgroundPlaying = csAudio.play('background');
+
+                if(backgroundPlaying)
+                    return;
+
+                setTimeout(start, 10);
+            }
+
+            function stop(){
+                backgroundPlaying.stop();
+            }
 		</script>
 	</body>
 </html>

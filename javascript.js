@@ -2,7 +2,7 @@ var csAudio = {};
 csAudio.init = function(){
 	this.list = {};
 	try {
-		window.AudioContext = 
+		window.AudioContext =
 			window.AudioContext || window.webkitAudioContext;
 		this.canPlayAudio = true;
 		this.context = new AudioContext();
@@ -14,18 +14,19 @@ csAudio.init = function(){
 	return this;
 }
 
-csAudio.load = function(path, types){
-	var pathSplit = path.split('/');
+csAudio.load = function(options){
+	var pathSplit = options.path.split('/');
 	var name = pathSplit.pop();
 	var path = pathSplit.toString('/');
-	var types = types.split(',');
+	var types = (options.extension ? options.extension : 'wav').split(',');
 
 	this.list[name] = {};
 	for(var i in types){
 		var type = types[i].trim();
 		this.list[name][type] = {
-			path : path 
-				+ '/' + name 
+            loaded: false,
+			path : path
+				+ '/' + name
 				+ '.' + type,
 			buffer: null,
 			request: new XMLHttpRequest()
@@ -41,16 +42,20 @@ csAudio.load = function(path, types){
 			var type = this.csData.type;
 			csAudio.context.decodeAudioData(this.response, function(buffer){
 				csAudio.list[name][type].buffer = buffer;
+				csAudio.list[name][type].loaded = true;
 			});
 		}
 		csAudio.list[name][type].request.send();
 	}
 }
 
-csAudio.play = function(name){
-	var source = this.context.createBufferSource(); 
-	source.buffer = csAudio.list[name]['wav'].buffer;
-
-	source.connect(this.context.destination);
-	source.start(0);
+csAudio.play = function(audioName){
+    if(this.list[audioName]['wav'].loaded === true){
+        var csAudioObj = this.context.createBufferSource();
+    	csAudioObj.buffer = this.list[audioName]['wav'].buffer;
+    	csAudioObj.connect(this.context.destination);
+        csAudioObj.start(0);
+        return csAudioObj;
+    }
+    return undefined;
 }
