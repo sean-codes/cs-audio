@@ -1,5 +1,6 @@
 # cs-audio
 Experimenting with cross platform audio solution. Targeting on modern browsers
+>Note: This is template project I'm using to get audio into CS-Engine and not meant to stand alone
 
 #Usage
 >Pre code thoughts
